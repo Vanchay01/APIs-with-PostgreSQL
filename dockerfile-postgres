@@ -1,0 +1,5 @@
+FROM postgres:latest
+ENV TZ="Asia/Bangkok"
+RUN date
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["postgres"]
