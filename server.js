@@ -5,9 +5,11 @@ const { logger, errorHandle } = require("./src/middleware");
 const schemaTable = require("./src/config/schema");
 const authRoute = require("./src/routes/authRoute");
 const userRouter = require("./src/routes/userCon");
+const { setupSwagger } = require("./src/util/swagger");
 const port = 5000;
 
 const app = express();
+setupSwagger(app)
 app.use(bodyParser.json());
 app.use(logger);
 pool

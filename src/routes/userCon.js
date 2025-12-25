@@ -14,7 +14,4 @@ userRouter.patch("/:id", updateUser);
 
 module.exports = userRouter;
  
- 
- 
- 
- 
+
