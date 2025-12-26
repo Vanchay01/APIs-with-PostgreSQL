@@ -6,7 +6,7 @@ const setupSwagger = (app) => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "VANCHAY",
+        title: "APIs with postgres",
         version: "1.0.0",
       },
       //Verify Token

@@ -15,28 +15,35 @@ const userModel = {
     return {
       user: users.rows,
       totalUser: Number((await countUser).rows[0].count),
-    };  
+    };
   },
-  async findById({id}){
-    const user = await pool.query(`
+  async findById({ id }) {
+    const user = await pool.query(
+      `
       SELECT * FROM users
       WHERE id = $1
-    `, [id])
-    return user.rows[0]
+    `,
+      [id]
+    );
+    return user.rows[0];
   },
-  async deleteById({id}){
-    const user = await pool.query(`
+  async deleteById({ id }) {
+    const user = await pool.query(
+      `
       DELETE FROM users
       WHERE id = $1
-    `, [id])
-    if (user.rowCount === 0){
-      return null
+    `,
+      [id]
+    );
+    if (user.rowCount === 0) {
+      return null;
     }
-    return true
+    return true;
   },
-  
-  async updateById({id, username, address, phone_number, age, sex, birth}){
-    const user = await pool.query(`
+
+  async updateById({ id, username, address, phone_number, age, sex, birth }) {
+    const user = await pool.query(
+      `
       UPDATE users
       SET 
         username = $1, 
@@ -46,9 +53,32 @@ const userModel = {
         sex = $5, 
         birth = $6
       WHERE id = $7
-    `, [username, address, phone_number, age, sex, birth, id])
-    console.log(user)
-    return user.rowCount
-  }
+    `,
+      [username, address, phone_number, age, sex, birth, id]
+    );
+    console.log(user);
+    return user.rowCount;
+  },
+
+  async save({
+    username,
+    email,
+    address,
+    phone_number,
+    password,
+    role,
+    age,
+    sex,
+    birth,
+  }) {
+    const user = await pool.query(
+      `
+      ISERT INTO users(username, email, address, phone_number, password, role, age, sex, birth)
+      VALUSE($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `,
+      [username, email, address, phone_number, password, role, age, sex, birth]
+    );
+    return user.rowCount;
+  },
 };
 module.exports = userModel;
