@@ -82,4 +82,34 @@ const updateUser = asyncHandler(async (req, res) => {
     data: result,
   });
 });
-module.exports = { getUser, getUserById, deleteUser, updateUser };
+
+const addUser = asyncHandler(async (req, res) => {
+  const {
+    username,
+    email,
+    address,
+    phone_number,
+    password,
+    role,
+    age,
+    sex,
+    birth,
+  } = req.body;
+  const result = userModel.save({
+    username: username,
+    email: email,
+    address: address,
+    phone_number: phone_number,
+    password: password,
+    role: role,
+    age: age,
+    sex: sex,
+    birth: birth,
+  });
+  return res.json({
+    message: `Add User: ${email} Successfully....`,
+    status: 201,
+    data: result
+  });
+});
+module.exports = { getUser, getUserById, deleteUser, updateUser, addUser };

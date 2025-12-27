@@ -4,13 +4,46 @@ const {
   getUserById,
   deleteUser,
   updateUser,
+  addUser,
 } = require("../controller/userCon");
 const userRouter = express.Router();
 
+/**
+ * @swagger
+ * /v1/users/{id}:
+ *  get:
+ *    tags: [User]
+ *    description: Get User By ID...
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schame:
+ *          type: string 
+ *    responses:
+ *      200:
+ *        description: Get User Successfully...
+ */
 userRouter.get("/:id", getUserById);
+/**
+ * @swagger
+ * /v1/users/:
+ *  get:
+ *    tags: [User]
+ *    description: Get User..
+ *    security: 
+ *      - bearerAuth: []
+ *    responses:
+ *      200:
+ *        description: Get User...
+ * 
+ */
 userRouter.get("/", getUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.patch("/:id", updateUser);
+userRouter.post("/", addUser)
 
 module.exports = userRouter;
  

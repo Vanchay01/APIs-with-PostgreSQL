@@ -73,11 +73,12 @@ const userModel = {
   }) {
     const user = await pool.query(
       `
-      ISERT INTO users(username, email, address, phone_number, password, role, age, sex, birth)
-      VALUSE($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      INSERT INTO users(username, email, address, phone_number, password, role, age, sex, birth)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
     `,
       [username, email, address, phone_number, password, role, age, sex, birth]
     );
+    console.log(user.rowCount)
     return user.rowCount;
   },
 };
