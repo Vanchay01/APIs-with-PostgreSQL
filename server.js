@@ -4,8 +4,9 @@ const pool = require("./src/config/db");
 const { logger, errorHandle } = require("./src/middleware");
 const schemaTable = require("./src/config/schema");
 const authRoute = require("./src/routes/authRoute");
-const userRouter = require("./src/routes/userCon");
+const userRouter = require("./src/routes/userRoute");
 const { setupSwagger } = require("./src/util/swagger");
+const productRouter = require("./src/routes/productRoute");
 const port = 5000;
 
 const app = express();
@@ -21,6 +22,7 @@ pool
 
 app.use("/v1/auth", authRoute)
 app.use('/v1/users', userRouter)
+app.use('/v1/products', productRouter)
 
 app.use(errorHandle);
 app.listen(port, () => {

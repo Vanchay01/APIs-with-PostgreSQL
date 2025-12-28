@@ -78,7 +78,7 @@ const userModel = {
     `,
       [username, email, address, phone_number, password, role, age, sex, birth]
     );
-    console.log(user.rowCount)
+    
     return user.rowCount;
   },
 };
