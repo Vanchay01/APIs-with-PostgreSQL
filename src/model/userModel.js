@@ -37,7 +37,7 @@ const userModel = {
     );
     if (user.rowCount === 0) {
       return null;
-    }
+    } 
     return true;
   },
 
