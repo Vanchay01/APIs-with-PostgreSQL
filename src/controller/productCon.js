@@ -14,7 +14,7 @@ const addProduct = asyncHanlder(async (req, res) => {
     by_categories,
     by_brands,
   } = req.body;
-  const products = await productModel.save({
+  const result = await productModel.save({
     barcode: barcode,
     name: name,
     part_number: part_number,
@@ -26,7 +26,7 @@ const addProduct = asyncHanlder(async (req, res) => {
     by_categories: by_categories,
     by_brands: by_brands,
   });
-  if (!products) {
+  if (!result) {
     return res.json({
       message: `Add product Faild`,
       status: 400,
@@ -38,6 +38,24 @@ const addProduct = asyncHanlder(async (req, res) => {
   });
 });
 
+const getByFilter = asyncHanlder(async(req, res)=>{
+  const brand = req.query.brand
+  const category = req.query.category
+  const result = await productModel.filter({brand: brand, category: category})
+  if (result.length == 0) {
+    return res.json({
+      message: `Not Found.....`,
+      status: 400,
+    });
+  }
+  return res.json({
+    message: `Get Products`,
+    status: 200,
+    data: result
+  });
+})
+
 module.exports = {
   addProduct,
+  getByFilter
 };
