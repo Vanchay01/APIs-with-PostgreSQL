@@ -16,7 +16,7 @@ const productModel = {
     const products = await pool.query(
       `
             INSERT INTO products(barcode, name, part_number, description, specification, price, discount, warranty, by_categories, by_brands)
-            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *
         `,
       [
         barcode,
@@ -59,10 +59,84 @@ const productModel = {
         and
             ($2::text is null or lower(c.name) = lower($2))
         Order by p.created_at DESC;
-      `,[brand || null, category || null]
+      `,
+      [brand || null, category || null]
     );
     return product.rows;
   },
+
+  async updateOne({
+    barcode,
+    name,
+    part_number,
+    description,
+    specification,
+    price,
+    discount,
+    warranty,
+    by_categories,
+    by_brands,
+    id,
+  }) {
+    console.log(
+      barcode,
+      name,
+      part_number,
+      description,
+      specification,
+      price,
+      discount,
+      warranty,
+      by_categories,
+      by_brands,
+      id
+    );
+    const data = await pool.query(
+      `
+      Update products
+      Set
+        barcode = $1,
+        name = $2,
+        part_number = $3,
+        description = $4,
+        specification = $5,
+        price = $6,
+        discount = $7,
+        warranty = $8,
+        by_brands = $9,
+        by_categories = $10
+      Where id = $11 Returning *
+    `,
+      [
+        barcode,
+        name,
+        part_number,
+        description,
+        specification,
+        price,
+        discount,
+        warranty,
+        by_categories,
+        by_brands,
+        id,
+      ]
+    );
+    return data.rows;
+  },
+
+  async deleteOne({ id }) {
+    const data = await pool.query(
+      `Delete from products where id = $1 returning *`,
+      [id]
+    );
+    return data.rows;
+  },
+
+  async findOne({ id }) {
+    const brand = await pool.query(`Select * from products where id = $1`, [id]);
+    return brand.rows;
+  },
 };
+
 
 module.exports = productModel;
