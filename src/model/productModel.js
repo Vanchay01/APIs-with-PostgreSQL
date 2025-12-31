@@ -30,23 +30,39 @@ const productModel = {
         by_categories,
         by_brands,
       ]
-    );  
-    return  products.rows[0]
+    );
+    return products.rows[0];
   },
 
-  async filter({brand, category}){
-    const data = await pool.query(`
-      SELECT p.id, p.name, p.price, b.name AS brands, c.name AS categories
-      FROM products p
-      JOIN brands b ON b.id = p.by_brands
-      JOIN categories c ON c.id = p.by_categories
-      WHERE
-        ($1::TEXT IS NULL OR LOWER(b.name) = LOWER($1))
-        AND
-        ($2::TEXT IS NULL OR LOWER(c.name) = LOWER($2))
-    `, [brand || null, category || null])
-    return data.rows
-  }
+  async filter({ brand, category }) {
+    console.log(brand, category);
+    const product = await pool.query(
+      `
+        Select 
+        p.id,
+        p.barcode,
+        p.name,
+        p.part_number,
+        p.description,
+        p.specification,
+        p.price,
+        p.discount,
+        p.warranty,
+        b.name as brands,
+        c.name as categories,
+        p.created_at
+        from products p
+        join brands b on p.by_brands = b.id
+        join categories c on p.by_categories = c.id
+        Where 
+            ($1::text is null or lower(b.name) = lower($1))
+        and
+            ($2::text is null or lower(c.name) = lower($2))
+        Order by p.created_at DESC;
+      `,[brand || null, category || null]
+    );
+    return product.rows;
+  },
 };
 
 module.exports = productModel;
