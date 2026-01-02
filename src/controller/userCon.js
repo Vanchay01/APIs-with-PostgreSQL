@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const userModel = require("../model/userModel");
 const pool = require("../config/db");
+const favModel = require("../model/favModel");
 
 const getUser = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -109,7 +110,26 @@ const addUser = asyncHandler(async (req, res) => {
   return res.json({
     message: `Add User: ${email} Successfully....`,
     status: 201,
-    data: result
+    data: result,
   });
 });
-module.exports = { getUser, getUserById, deleteUser, updateUser, addUser };
+
+const addFavorite = asyncHandler(async (req, res) => {
+  const { by_products, by_users } = req.body;
+  const result = await favModel.save({
+    by_products: by_products,
+    by_users: by_users,
+  });
+  return res.json({ 
+    message: "OK, favorited", 
+    status: 201, 
+    data: result });
+});
+module.exports = {
+  getUser,
+  getUserById,
+  deleteUser,
+  updateUser,
+  addUser,
+  addFavorite,
+};

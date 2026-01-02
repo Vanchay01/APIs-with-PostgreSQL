@@ -5,9 +5,11 @@ const {
   deleteUser,
   updateUser,
   addUser,
+  addFavorite,
 } = require("../controller/userCon");
 const userRouter = express.Router();
 
+userRouter.post("/addFav", addFavorite);
 /**
  * @swagger
  * /v1/users/{id}:
