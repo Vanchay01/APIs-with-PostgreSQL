@@ -116,18 +116,51 @@ const addUser = asyncHandler(async (req, res) => {
 
 const addFavorite = asyncHandler(async (req, res) => {
   const { by_products, by_users } = req.body;
-  const exsits = await favModel.findfavById({by_products: by_products, by_users: by_users})
-  if(exsits > 0){
-    return res.json({message: "Already Favorited."})
+  const exsits = await favModel.findfavById({
+    by_products: by_products,
+    by_users: by_users,
+  });
+  if (exsits > 0) {
+    return res.json({ message: "Already Favorited." });
   }
   const result = await favModel.save({
     by_products: by_products,
     by_users: by_users,
   });
-  return res.json({ 
-    message: "OK, favorited", 
-    status: 201, 
-    data: result });
+  return res.json({
+    message: "OK, favorited",
+    status: 201,
+    data: result,
+  });
+});
+
+const removeFavorite = asyncHandler(async (req, res) => {
+  const { favId } = req.body;
+  const exsits = await favModel.findOne({ favId: favId });
+  if (!exsits) {
+    return res.json({
+      message: "Not Found favorite",
+      status: 400,
+    });
+  }
+  const result = await favModel.deleteOne({ favId: favId });
+  return res.json({
+    message: "okkk",
+    status: 200,
+    data: result,
+  });
+});
+
+const getFavorites = asyncHandler(async (req, res) => {
+  const result = await favModel.find();
+  if (result == 0) {
+    return res.json({ message: "Not found!!", status: 400 });
+  }
+  return res.json({
+    message: "Get favorites",
+    status: 200,
+    data: result,
+  });
 });
 module.exports = {
   getUser,
@@ -136,4 +169,6 @@ module.exports = {
   updateUser,
   addUser,
   addFavorite,
+  removeFavorite,
+  getFavorites,
 };

@@ -6,10 +6,14 @@ const {
   updateUser,
   addUser,
   addFavorite,
+  removeFavorite,
+  getFavorites,
 } = require("../controller/userCon");
 const userRouter = express.Router();
+userRouter.post("/favorites/", addFavorite);
+userRouter.get("/favorites/", getFavorites);
+userRouter.delete("/favorites/", removeFavorite);
 
-userRouter.post("/addFav", addFavorite);
 /**
  * @swagger
  * /v1/users/{id}:
