@@ -116,6 +116,10 @@ const addUser = asyncHandler(async (req, res) => {
 
 const addFavorite = asyncHandler(async (req, res) => {
   const { by_products, by_users } = req.body;
+  const exsits = await favModel.findfavById({by_products: by_products, by_users: by_users})
+  if(exsits > 0){
+    return res.json({message: "Already Favorited."})
+  }
   const result = await favModel.save({
     by_products: by_products,
     by_users: by_users,
