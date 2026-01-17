@@ -9,6 +9,7 @@ const { setupSwagger } = require("./src/util/swagger");
 const productRouter = require("./src/routes/productRoute");
 const brandRouter = require("./src/routes/brand");
 const categoryRouter = require("./src/routes/categoryRoutes");
+const cardRouter = require("./src/routes/cardRoute");
 const port = 5000;
 
 const app = express();
@@ -27,6 +28,7 @@ app.use('/v1/users', userRouter)
 app.use('/v1/brands', brandRouter)
 app.use('/v1/category', categoryRouter)
 app.use('/v1/products', productRouter)
+app.use('/v1/card', cardRouter)
 
 app.use(errorHandle);
 app.listen(port, () => {
