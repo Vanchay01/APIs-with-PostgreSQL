@@ -2,17 +2,16 @@ const asyncHandler = require("express-async-handler")
 const cartModel = require("../model/cartModel")
 
 const addCard = asyncHandler(async(req, res)=>{
-    const {byUser, status} = req.body
-    const exsisting = await cartModel.findCard({byUser: byUser, status: status})
-    console.log("controller", exsisting)
-    if(exsisting){
-        return res.json({
-            message: "Cart created already",
-            status: 200,
-        })
-    }
-    console.log("===>controller", exsisting)
-    const result = await cartModel.save({byUser: byUser, status: status})
+    const byUser = req.params.id
+    const {byProduct, quantity} = req.body
+    const result = await cartModel.addToCart({byUser: byUser, byProduct: byProduct, quantity: quantity || 1})
+    console.log("controller", result)
+    // if(result){
+    //     return res.json({
+    //         message: "Cart created already",
+    //         status: 200,
+    //     })
+    // }
     return res.json({
         message: "Added new carts",
         status: 200,
