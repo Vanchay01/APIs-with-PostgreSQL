@@ -10,6 +10,7 @@ const productRouter = require("./src/routes/productRoute");
 const brandRouter = require("./src/routes/brand");
 const categoryRouter = require("./src/routes/categoryRoutes");
 const cardRouter = require("./src/routes/cardRoute");
+const { upload } = require("./src/middleware/upload");
 const port = 5000;
 
 const app = express();
@@ -23,13 +24,23 @@ pool
 
 // schemaTable() // For create Table postgreSQL
 
+
+// app.use("/uploads", express.static("uploads"));
 app.use("/v1/auth", authRoute)
 app.use('/v1/users', userRouter)
 app.use('/v1/brands', brandRouter)
 app.use('/v1/category', categoryRouter)
 app.use('/v1/products', productRouter)
 app.use('/v1/card', cardRouter)
-
+app.post("/uploads", upload, (req, res) => {
+  // Upload File Image
+  console.log(req.file);
+  if (req.file == undefined) {
+    throw new Error("No file founded");
+  } else {
+    return res.json(res.file);
+  }
+});
 app.use(errorHandle);
 app.listen(port, () => {
   console.log(`✅ Server is running on http://localhost:${port}/api-docs`);
