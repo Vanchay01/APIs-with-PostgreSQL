@@ -31,6 +31,6 @@ const setupSwagger = (app) => {
     // apis: ['../routes/*.js']
   };
   const openAPI = swaggerJSDoc(option);
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openAPI));
+  app.use("/apidocumentation", swaggerUi.serve, swaggerUi.setup(openAPI));
 };
 module.exports = { setupSwagger };

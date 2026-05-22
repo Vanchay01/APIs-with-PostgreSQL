@@ -11,7 +11,7 @@ const brandRouter = require("./src/routes/brand");
 const categoryRouter = require("./src/routes/categoryRoutes");
 const cardRouter = require("./src/routes/cardRoute");
 const { upload } = require("./src/middleware/upload");
-const port = 5000;
+const port = process.env.PORT || 6000;
 
 const app = express();
 setupSwagger(app)
@@ -19,10 +19,10 @@ app.use(bodyParser.json());
 app.use(logger);
 pool
   .connect()
-  .then(() => console.log("✅ //server.js => Connected to PostgreSQL"))
-  .catch((err) => console.error("❌ DB connection error:", err));
+  .then(() => console.log("✅ // => Connected to PostgreSQL - server.js:22"))
+  .catch((err) => console.error("❌ DB connection error: - server.js:23", err));
 
-// schemaTable() // For create Table postgreSQL
+schemaTable() // For create Table postgreSQL
 
 
 // app.use("/uploads", express.static("uploads"));
@@ -43,7 +43,7 @@ app.post("/uploads", upload, (req, res) => {
 });
 app.use(errorHandle);
 app.listen(port, () => {
-  console.log(`✅ Server is running on http://localhost:${port}/api-docs`);
-  console.log(`✅ Server is running on http://localhost:${port}/v1`);
-  console.log(`✅ Server is running on http://localhost:${port}/`);
+  console.log(`✅ Server is running on http://localhost:${port}/apidocumentation - server.js:46`);
+  console.log(`✅ Server is running on http://localhost:${port}/v1 - server.js:47`);
+  console.log(`✅ Server is running on http://localhost:${port}/ - server.js:48`);
 });
