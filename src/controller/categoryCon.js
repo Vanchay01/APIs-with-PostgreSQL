@@ -3,6 +3,7 @@ const categoryModel = require("../model/categoryModel");
 
 const addCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
+  console.log("✅ Category saved successfully  categoryModel.js:8 - categoryCon.js:6");
   const brand = await categoryModel.save({ name: name });
   if (!brand) {
     return res.json({

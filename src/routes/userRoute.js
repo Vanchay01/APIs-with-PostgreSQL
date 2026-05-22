@@ -47,7 +47,26 @@ userRouter.get("/:id", getUserById);
  * 
  */
 userRouter.get("/", getUser);
+/**
+ * @swagger
+ * /v1/users/{id}:
+ *  delete:
+ *    tags: [User]
+ *    description: Delete User By ID...
+ *    security:
+ *      - bearerAuth: []
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schame:
+ *          type: string 
+ *    responses:
+ *      200:
+ *        description: Delete User Successfully...
+ */
 userRouter.delete("/:id", deleteUser);
+
 userRouter.patch("/:id", updateUser);
 userRouter.post("/", addUser)
 
